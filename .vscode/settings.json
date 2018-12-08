@@ -1,0 +1,12 @@
+{
+    "workbench.settings.editor": "json",
+    "[typescript]": {
+      "editor.formatOnSave": true
+    },
+    "[scss]": {
+      "editor.formatOnSave": true
+    },
+    "tslint.autoFixOnSave": true,
+    "tslint.exclude": "**/tslint_rules/*.ts",
+    "typescript.tsdk": "node_modules/typescript/lib"
+}
