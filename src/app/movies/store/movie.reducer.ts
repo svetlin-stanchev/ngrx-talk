@@ -5,6 +5,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export interface MovieState extends EntityState<Movie> {
   // additional entities state properties
+  selectedMovieId: string;
   loading: boolean;
   error: string;
 }
@@ -13,6 +14,7 @@ export const adapter: EntityAdapter<Movie> = createEntityAdapter<Movie>();
 
 export const initialMoviesState: MovieState = adapter.getInitialState({
   // additional entity state properties
+  selectedMovieId: null,
   loading: false,
   error: null
 });
@@ -28,14 +30,21 @@ export function reducer(state = initialMoviesState, action: MovieActions): Movie
     }
 
     case MovieActionTypes.LoadMoviesSuccess: {
-      return adapter.addAll(action.payload.movies, state);
+      return adapter.addAll(action.payload.movies, { ...state, loading: initialMoviesState.loading });
     }
 
     case MovieActionTypes.LoadMoviesFail: {
       return {
         ...state,
         loading: initialMoviesState.loading,
-        error: action.payload
+        error: action.payload.error
+      };
+    }
+
+    case MovieActionTypes.SelectMovie: {
+      return {
+        ...state,
+        selectedMovieId: action.payload.id
       };
     }
 
@@ -72,7 +81,7 @@ export function reducer(state = initialMoviesState, action: MovieActions): Movie
     }
 
     case MovieActionTypes.ClearMovies: {
-      return adapter.removeAll(state);
+      return adapter.removeAll({ ...state, loading: initialMoviesState.loading });
     }
 
     default: {
@@ -81,7 +90,7 @@ export function reducer(state = initialMoviesState, action: MovieActions): Movie
   }
 }
 
-const selectMoviesFeatureState = createFeatureSelector<MovieState>('movie');
+const selectMoviesFeatureState = createFeatureSelector<MovieState>('movies');
 const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(selectMoviesFeatureState);
 export const selectMoviesCombinedState = createSelector(
   selectMoviesFeatureState,

@@ -14,7 +14,7 @@ import * as fromMovie from './store';
   imports: [
     CommonModule,
     MoviesRoutingModule,
-    StoreModule.forFeature('movie', fromMovie.reducer),
+    StoreModule.forFeature('movies', fromMovie.reducer),
     EffectsModule.forFeature([fromMovie.MovieEffects])
   ],
   providers: [MoviesService]

@@ -3,6 +3,8 @@
 
 <ng-container *ngIf="movieState$ | async as movieState">
   <ul>
-    <li *ngFor="let movie of movieState.list">{{movie.id}}</li>
+    <li *ngFor="let movie of movieState.list"
+      (click)="selectMovie($event, movie.id)"
+      [ngClass]="{'selected': movieState.selectedMovieId === movie.id}">{{movie.id}}</li>
   </ul>
 </ng-container>

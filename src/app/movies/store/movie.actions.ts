@@ -7,6 +7,8 @@ export enum MovieActionTypes {
   LoadMoviesSuccess = '[Movie] Load Movies Success',
   LoadMoviesFail = '[Movie] Load Movies Fail',
 
+  SelectMovie = '[Movie] Select Movie',
+
   AddMovie = '[Movie] Add Movie',
   UpsertMovie = '[Movie] Upsert Movie',
   AddMovies = '[Movie] Add Movies',
@@ -31,7 +33,13 @@ export class LoadMoviesSuccess implements Action {
 export class LoadMoviesFail implements Action {
   readonly type = MovieActionTypes.LoadMoviesFail;
 
-  constructor(public payload: string) {}
+  constructor(public payload: { error: string }) {}
+}
+
+export class SelectMovie implements Action {
+  readonly type = MovieActionTypes.SelectMovie;
+
+  constructor(public payload: { id: string }) {}
 }
 
 export class AddMovie implements Action {
@@ -90,6 +98,7 @@ export type MovieActions =
   | LoadMovies
   | LoadMoviesSuccess
   | LoadMoviesFail
+  | SelectMovie
   | AddMovie
   | UpsertMovie
   | AddMovies

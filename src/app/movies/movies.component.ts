@@ -26,4 +26,8 @@ export class MoviesComponent implements OnInit {
   clearMovies() {
     this._store$.dispatch(new fromStore.ClearMovies());
   }
+
+  selectMovie(event, id: string) {
+    this._store$.dispatch(new fromStore.SelectMovie({ id }));
+  }
 }
