@@ -10,10 +10,7 @@ import { environment } from '../environments/environment';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    SidebarComponent
-  ],
+  declarations: [AppComponent, SidebarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -23,4 +20,4 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
