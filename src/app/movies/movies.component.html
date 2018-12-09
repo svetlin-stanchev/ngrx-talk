@@ -1,3 +1,8 @@
-<p>
-  movies works!
-</p>
+<button type="button" (click)="getMovies()">Get Movies</button>
+<button type="button" (click)="clearMovies()">Clear Movies</button>
+
+<ng-container *ngIf="movieState$ | async as movieState">
+  <ul>
+    <li *ngFor="let movie of movieState.list">{{movie.id}}</li>
+  </ul>
+</ng-container>

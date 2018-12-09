@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SidebarState, AppState } from './store';
+import { AppState } from './store';
 import { Store, select } from '@ngrx/store';
 
 import * as fromStore from './store/index';

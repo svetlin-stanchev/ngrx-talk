@@ -4,6 +4,9 @@ import { Movie } from './movie.model';
 
 export enum MovieActionTypes {
   LoadMovies = '[Movie] Load Movies',
+  LoadMoviesSuccess = '[Movie] Load Movies Success',
+  LoadMoviesFail = '[Movie] Load Movies Fail',
+
   AddMovie = '[Movie] Add Movie',
   UpsertMovie = '[Movie] Upsert Movie',
   AddMovies = '[Movie] Add Movies',
@@ -17,8 +20,18 @@ export enum MovieActionTypes {
 
 export class LoadMovies implements Action {
   readonly type = MovieActionTypes.LoadMovies;
+}
+
+export class LoadMoviesSuccess implements Action {
+  readonly type = MovieActionTypes.LoadMoviesSuccess;
 
   constructor(public payload: { movies: Movie[] }) {}
+}
+
+export class LoadMoviesFail implements Action {
+  readonly type = MovieActionTypes.LoadMoviesFail;
+
+  constructor(public payload: string) {}
 }
 
 export class AddMovie implements Action {
@@ -75,6 +88,8 @@ export class ClearMovies implements Action {
 
 export type MovieActions =
   | LoadMovies
+  | LoadMoviesSuccess
+  | LoadMoviesFail
   | AddMovie
   | UpsertMovie
   | AddMovies

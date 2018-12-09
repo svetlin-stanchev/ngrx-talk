@@ -1,19 +1,44 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Movie } from './movie.model';
 import { MovieActions, MovieActionTypes } from './movie.actions';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-export interface MoviesState extends EntityState<Movie> {
+export interface MovieState extends EntityState<Movie> {
   // additional entities state properties
+  loading: boolean;
+  error: string;
 }
 
 export const adapter: EntityAdapter<Movie> = createEntityAdapter<Movie>();
 
-export const initialState: MoviesState = adapter.getInitialState({
+export const initialMoviesState: MovieState = adapter.getInitialState({
   // additional entity state properties
+  loading: false,
+  error: null
 });
 
-export function reducer(state = initialState, action: MovieActions): MoviesState {
+export function reducer(state = initialMoviesState, action: MovieActions): MovieState {
   switch (action.type) {
+    case MovieActionTypes.LoadMovies: {
+      return {
+        ...state,
+        loading: true,
+        error: initialMoviesState.error
+      };
+    }
+
+    case MovieActionTypes.LoadMoviesSuccess: {
+      return adapter.addAll(action.payload.movies, state);
+    }
+
+    case MovieActionTypes.LoadMoviesFail: {
+      return {
+        ...state,
+        loading: initialMoviesState.loading,
+        error: action.payload
+      };
+    }
+
     case MovieActionTypes.AddMovie: {
       return adapter.addOne(action.payload.movie, state);
     }
@@ -46,10 +71,6 @@ export function reducer(state = initialState, action: MovieActions): MoviesState
       return adapter.removeMany(action.payload.ids, state);
     }
 
-    case MovieActionTypes.LoadMovies: {
-      return adapter.addAll(action.payload.movies, state);
-    }
-
     case MovieActionTypes.ClearMovies: {
       return adapter.removeAll(state);
     }
@@ -60,4 +81,12 @@ export function reducer(state = initialState, action: MovieActions): MoviesState
   }
 }
 
-export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors();
+const selectMoviesFeatureState = createFeatureSelector<MovieState>('movie');
+const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(selectMoviesFeatureState);
+export const selectMoviesCombinedState = createSelector(
+  selectMoviesFeatureState,
+  selectAll,
+  (state: MovieState, list: Movie[]) => {
+    return { ...state, list };
+  }
+);
