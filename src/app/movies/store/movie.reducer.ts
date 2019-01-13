@@ -3,6 +3,12 @@ import { Movie } from './movie.model';
 import { MovieActions, MovieActionTypes } from './movie.actions';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
+/**
+ * When using Entity the store state extends EntityState with the model
+ * that will be stored as entity provided. (Movie) in this case.
+ * If you want to store two separate data models and use Entity you have to create
+ * SEPARATE store state or substate.
+ */
 export interface MovieState extends EntityState<Movie> {
   // additional entities state properties
   selectedMovieId: string;
@@ -10,16 +16,21 @@ export interface MovieState extends EntityState<Movie> {
   error: string;
 }
 
+/**
+ * The EntityAdapter provides methods for handling the state operations with entities.
+ */
 export const adapter: EntityAdapter<Movie> = createEntityAdapter<Movie>();
 
 export const initialMoviesState: MovieState = adapter.getInitialState({
   // additional entity state properties
+  // Notice you do not have to provide initial state for ids and entities
+  // The adapter takes care of that
   selectedMovieId: null,
   loading: false,
   error: null
 });
 
-export function reducer(state = initialMoviesState, action: MovieActions): MovieState {
+export function movieReducer(state = initialMoviesState, action: MovieActions): MovieState {
   switch (action.type) {
     case MovieActionTypes.LoadMovies: {
       return {
@@ -48,6 +59,9 @@ export function reducer(state = initialMoviesState, action: MovieActions): Movie
       };
     }
 
+    /**
+     * Example methods that are provided by the adapter
+     */
     case MovieActionTypes.AddMovie: {
       return adapter.addOne(action.payload.movie, state);
     }
@@ -90,8 +104,20 @@ export function reducer(state = initialMoviesState, action: MovieActions): Movie
   }
 }
 
+/**
+ * This is hot to create the main selector for lazyLoaded feature state.
+ * 'movies' is the same string we provided in movies.module
+ */
 const selectMoviesFeatureState = createFeatureSelector<MovieState>('movies');
+/**
+ * All helper selectors provided by the adapter.
+ * selectAll returns Array list of all stored movies.
+ */
 const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(selectMoviesFeatureState);
+
+/**
+ * Example for combined state. An easy way to return the whole state to components.
+ */
 export const selectMoviesCombinedState = createSelector(
   selectMoviesFeatureState,
   selectAll,

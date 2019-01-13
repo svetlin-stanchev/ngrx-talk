@@ -6,7 +6,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { reducers, metaReducers } from './store';
+import { reducerMap, metaReducers } from './store';
 import { environment } from '../environments/environment';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { EffectsModule } from '@ngrx/effects';
@@ -16,10 +16,23 @@ import { EffectsModule } from '@ngrx/effects';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
+    /**
+     * Initial registration of the store. No need to be in the app.module
+     * can be in core.module instead.
+     * If you do not have reducerMap you can just provide the reducer for your state just like
+     * in the movies.module for the movieReducer
+     */
+    StoreModule.forRoot(reducerMap, { metaReducers }),
+    /**
+     * To use effects in features you need to register EffectsModule.forRoot([])
+     * even if there are no effects used in the root module.
+     */
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    StoreRouterConnectingModule
+    /**
+     * Connect router to the store
+     */
+    StoreRouterConnectingModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

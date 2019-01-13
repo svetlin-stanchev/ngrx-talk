@@ -18,10 +18,18 @@ export class AppComponent implements OnInit {
   constructor(private _store$: Store<AppState>) {}
 
   ngOnInit() {
+    /**
+     * Get the selected data from store selector into the component.
+     * The subscribe() needed here is done via | async pipe in the component.
+     * Async pipe is the preferred method of subscribing to store selectors
+     */
     this.sidebarToggleState$ = this._store$.pipe(select(fromStore.selectSidebarToggleState));
   }
 
   toggleSidebar() {
+    /**
+     * How to manually dispatch action from the component
+     */
     this._store$.dispatch(new fromStore.ToggleSidebar());
   }
 }

@@ -11,12 +11,9 @@ export class MovieEffects {
   @Effect()
   loadMovies$: Observable<MovieActions> = this._actions$.pipe(
     ofType(MovieActionTypes.LoadMovies),
-    mergeMap((action) =>
-      this._moviesService.getMovies().pipe(
-        map((movies) => new LoadMoviesSuccess({ movies })),
-        catchError((error) => of(new LoadMoviesFail({ error })))
-      )
-    )
+    mergeMap((action) => this._moviesService.getMovies()),
+    map((movies) => new LoadMoviesSuccess({ movies })),
+    catchError((error) => of(new LoadMoviesFail({ error })))
   );
 
   constructor(private _actions$: Actions, private _moviesService: MoviesService) {}

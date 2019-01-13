@@ -7,4 +7,7 @@
       (click)="selectMovie($event, movie.id)"
       [ngClass]="{'selected': movieState.selectedMovieId === movie.id}">{{movie.id}}</li>
   </ul>
+  <ng-container *ngIf="movieState.entities[movieState.selectedMovieId] as selectedMovie">
+    <section>{{ selectedMovie | json }}</section>
+  </ng-container>
 </ng-container>

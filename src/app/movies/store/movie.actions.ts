@@ -2,6 +2,9 @@ import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { Movie } from './movie.model';
 
+/**
+ * More complex enum
+ */
 export enum MovieActionTypes {
   LoadMovies = '[Movie] Load Movies',
   LoadMoviesSuccess = '[Movie] Load Movies Success',
@@ -24,6 +27,10 @@ export class LoadMovies implements Action {
   readonly type = MovieActionTypes.LoadMovies;
 }
 
+/**
+ * Example action with provided payload. Do not change the name of the property.
+ * ALWAYS provide payload (named payload) when needed.
+ */
 export class LoadMoviesSuccess implements Action {
   readonly type = MovieActionTypes.LoadMoviesSuccess;
 
@@ -33,6 +40,10 @@ export class LoadMoviesSuccess implements Action {
 export class LoadMoviesFail implements Action {
   readonly type = MovieActionTypes.LoadMoviesFail;
 
+  /**
+   * @param payload a good practice is to provide the payload as an Object and type
+   * Object property for clarity. Other approach is to just use payload: string
+   */
   constructor(public payload: { error: string }) {}
 }
 

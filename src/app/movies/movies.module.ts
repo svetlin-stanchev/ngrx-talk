@@ -14,7 +14,15 @@ import * as fromMovie from './store';
   imports: [
     CommonModule,
     MoviesRoutingModule,
-    StoreModule.forFeature('movies', fromMovie.reducer),
+    /**
+     * This is how to register store for lazyLoaded module.
+     * 'movies' is the name under which we can find the store in redux extension.
+     * Provided reducer can be reducerMap if it is a complex state with substates.
+     */
+    StoreModule.forFeature('movies', fromMovie.movieReducer),
+    /**
+     * This is how to register effects for lazyLoaded module.
+     */
     EffectsModule.forFeature([fromMovie.MovieEffects])
   ],
   providers: [MoviesService]
