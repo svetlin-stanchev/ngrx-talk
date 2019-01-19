@@ -17,6 +17,8 @@ export class MoviesComponent implements OnInit {
 
   ngOnInit() {
     this.movieState$ = this._store$.pipe(select(fromStore.selectMoviesCombinedState));
+
+    this._store$.dispatch(new fromStore.DelayedLoadMovies());
   }
 
   getMovies() {

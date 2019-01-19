@@ -24,6 +24,15 @@ export class AppComponent implements OnInit {
      * Async pipe is the preferred method of subscribing to store selectors
      */
     this.sidebarToggleState$ = this._store$.pipe(select(fromStore.selectSidebarToggleState));
+
+    /**
+     * This action will be delayed for 5 seconds to mimic slow async operation.
+     * The result store of this action will be used in movie.effects
+     */
+    setTimeout(() => {
+      const globalData = 'globalData';
+      this._store$.dispatch(new fromStore.LoadGlobals({ globalData }));
+    }, 5000);
   }
 
   toggleSidebar() {

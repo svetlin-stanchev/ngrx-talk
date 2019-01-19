@@ -12,6 +12,8 @@ export enum MovieActionTypes {
 
   SelectMovie = '[Movie] Select Movie',
 
+  DelayedLoadMovies = '[Movie] Delayed Load Movies',
+
   AddMovie = '[Movie] Add Movie',
   UpsertMovie = '[Movie] Upsert Movie',
   AddMovies = '[Movie] Add Movies',
@@ -51,6 +53,10 @@ export class SelectMovie implements Action {
   readonly type = MovieActionTypes.SelectMovie;
 
   constructor(public payload: { id: string }) {}
+}
+
+export class DelayedLoadMovies implements Action {
+  readonly type = MovieActionTypes.DelayedLoadMovies;
 }
 
 export class AddMovie implements Action {
@@ -110,6 +116,7 @@ export type MovieActions =
   | LoadMoviesSuccess
   | LoadMoviesFail
   | SelectMovie
+  | DelayedLoadMovies
   | AddMovie
   | UpsertMovie
   | AddMovies
