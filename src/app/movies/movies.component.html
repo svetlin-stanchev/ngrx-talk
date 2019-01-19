@@ -8,6 +8,9 @@
       [ngClass]="{'selected': movieState.selectedMovieId === movie.id}">{{movie.id}}</li>
   </ul>
   <ng-container *ngIf="movieState.entities[movieState.selectedMovieId] as selectedMovie">
-    <section>{{ selectedMovie | json }}</section>
+    <section>
+      <div>{{ selectedMovie.name }}</div>
+      <img [src]="selectedMovie.posterUrl" [alt]="selectedMovie.name">
+    </section>
   </ng-container>
 </ng-container>
