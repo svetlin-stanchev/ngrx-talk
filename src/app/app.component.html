@@ -8,5 +8,5 @@
 <h2>Here are some links to help you start: </h2>
 <router-outlet></router-outlet>
 <button type="button" (click)="toggleSidebar()">Toggle Sidebar</button>
-<app-sidebar *ngIf="sidebarToggleState$ | async"></app-sidebar>
+<app-sidebar [@slideInOut]="(sidebarToggleState$ | async) ? 'in' : 'out'"></app-sidebar>
 
