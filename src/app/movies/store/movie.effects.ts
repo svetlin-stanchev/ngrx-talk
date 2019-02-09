@@ -28,20 +28,23 @@ export class MovieEffects {
        * switchMap triggers the actual async operation.
        * Here we can use the payload of the action in the API call for example
        */
-      switchMap((action) => this._moviesService.getMovies()),
-      /**
-       * when the API call returns result we map() it to success action
-       */
-      map((movies) => new LoadMoviesSuccess({ movies })),
-      /**
-       * If for some reason we want more than one action dispatched
-       * we use switchMap instead of map and return an Array of new actions like shown below.
-       */
-      // switchMap((movies) => [new LoadMoviesSuccess({ movies }), new SomeOtherAction({ movies })])
-      /**
-       * If the API call returns an error we map it to Observable of the fail action
-       */
-      catchError((error) => of(new LoadMoviesFail({ error })))
+      switchMap((action) =>
+        this._moviesService.getMovies().pipe(
+          /**
+           * when the API call returns result we map() it to success action
+           */
+          map((movies) => new LoadMoviesSuccess({ movies })),
+          /**
+           * If for some reason we want more than one action dispatched
+           * we use switchMap instead of map and return an Array of new actions like shown below.
+           */
+          // switchMap((movies) => [new LoadMoviesSuccess({ movies }), new SomeOtherAction({ movies })])
+          /**
+           * If the API call returns an error we map it to Observable of the fail action
+           */
+          catchError((error) => of(new LoadMoviesFail({ error })))
+        )
+      )
     );
 
   @Effect()
