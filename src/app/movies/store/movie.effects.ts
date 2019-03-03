@@ -50,17 +50,16 @@ export class MovieEffects {
   @Effect()
   getTheMoviesInDelayedAction$: Observable<any> = this._actions$.pipe(
     ofType(MovieActionTypes.DelayedLoadMovies),
-    switchMap(
-      (action) =>
-        this._storeHelperService.waitForAsyncSelector(this._globalStore$, fromReducer.selectGlobalDataState, null),
-      /**
-       * This switch will be called in 5 seconds, when the global store data has been populated.
-       * Instead of dispatching action we can do another API call here based on globalData and actionPayload.
-       */
-      switchMap(([globalData, actionPayload]) => [
-        new LoadMoviesSuccess({ movies: [{ id: '3', name: 'Dummy', posterUrl: '' }] })
-      ])
-    )
+    switchMap((action) =>
+      this._storeHelperService.waitForAsyncSelector(this._globalStore$, fromReducer.selectGlobalDataState, null)
+    ),
+    /**
+     * This switch will be called in 5 seconds, when the global store data has been populated.
+     * Instead of dispatching action we can do another API call here based on globalData and actionPayload.
+     */
+    switchMap(([globalData, actionPayload]) => [
+      new LoadMoviesSuccess({ movies: [{ id: '3', name: 'Dummy', posterUrl: '' }] })
+    ])
   );
 
   constructor(
